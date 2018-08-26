@@ -50,6 +50,12 @@
             </el-table-column>
 
             <el-table-column
+                    prop="DESCRIPTION"
+                    label="任务描述"
+                    sortable>
+            </el-table-column>
+
+            <el-table-column
                     prop="job_CLASS_NAME"
                     label="任务类名"
                     sortable>
@@ -128,6 +134,9 @@
             </el-form-item>
             <el-form-item label="任务分组" label-width="120px" style="width:35%">
                 <el-input v-model="form.jobGroup" auto-complete="off"></el-input>
+            </el-form-item>
+            <el-form-item label="任务描述" label-width="120px" style="width:35%">
+                <el-input v-model="form.description" auto-complete="off"></el-input>
             </el-form-item>
             <el-form-item label="表达式" label-width="120px" style="width:35%">
                 <el-input v-model="form.cronExpression" auto-complete="off"></el-input>
@@ -263,7 +272,8 @@
                 this.$http.post('job/addjob', {
                     "jobClassName": this.form.jobName,
                     "jobGroupName": this.form.jobGroup,
-                    "cronExpression": this.form.cronExpression
+                    "cronExpression": this.form.cronExpression,
+                    "description": this.form.description
                 }, {emulateJSON: true}).then(function (res) {
                     this.loadData(this.currentPage, this.pagesize);
                     this.dialogFormVisible = false;

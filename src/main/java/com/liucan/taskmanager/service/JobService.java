@@ -24,13 +24,15 @@ public class JobService {
         return (BaseJob) class1.newInstance();
     }
 
-    public void addJob(String className, String groupName, String cron) {
+    public void addJob(String className, String groupName, String cron, String description) {
         try {
             //启动调度器
             scheduler.start();
 
             //构建job信息
-            JobDetail jobDetail = JobBuilder.newJob(getClass(className).getClass())
+            BaseJob job = getClass(className);
+            JobDetail jobDetail = JobBuilder.newJob(job.getClass())
+                    .withDescription(description)
                     .withIdentity(className, groupName)
                     .build();
 

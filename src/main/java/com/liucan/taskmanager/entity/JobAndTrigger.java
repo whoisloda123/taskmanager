@@ -8,6 +8,7 @@ import java.math.BigInteger;
 public class JobAndTrigger {
     private String JOB_NAME;
     private String JOB_GROUP;
+    private String DESCRIPTION;
     private String JOB_CLASS_NAME;
     private String TRIGGER_NAME;
     private String TRIGGER_GROUP;

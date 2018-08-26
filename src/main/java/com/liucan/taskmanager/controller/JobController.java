@@ -18,9 +18,9 @@ import java.util.Map;
  * @brief
  */
 @RestController
-@RequestMapping(value = "job")
+@RequestMapping("job")
 public class JobController {
-    private IJobAndTriggerService iJobAndTriggerService;
+    private final IJobAndTriggerService iJobAndTriggerService;
     private final JobService jobService;
 
     public JobController(JobService jobService,
@@ -32,15 +32,15 @@ public class JobController {
     /**
      * 添加任务
      */
-    @PostMapping(value = "addjob")
-    public void addJob(String jobClassName, String jobGroupName, String cronExpression) {
-        jobService.addJob(jobClassName, jobGroupName, cronExpression);
+    @PostMapping("addjob")
+    public void addJob(String jobClassName, String jobGroupName, String cronExpression, String description) {
+        jobService.addJob(jobClassName, jobGroupName, cronExpression, description);
     }
 
     /**
      * 暂停任务
      */
-    @PostMapping(value = "pausejob")
+    @PostMapping("pausejob")
     public void pausejob(String jobClassName, String jobGroupName) {
         jobService.pauseJob(jobClassName, jobGroupName);
     }
@@ -48,7 +48,7 @@ public class JobController {
     /**
      * 恢复任务
      */
-    @PostMapping(value = "resumejob")
+    @PostMapping("resumejob")
     public void resumejob(String jobClassName, String jobGroupName) {
         jobService.resumeJob(jobClassName, jobGroupName);
     }
@@ -56,7 +56,7 @@ public class JobController {
     /**
      * 从新进行任务
      */
-    @PostMapping(value = "/reschedulejob")
+    @PostMapping("reschedulejob")
     public void rescheduleJob(String jobClassName, String jobGroupName, String cronExpression) {
         jobService.rescheduleJob(jobClassName, jobGroupName, cronExpression);
     }
@@ -64,7 +64,7 @@ public class JobController {
     /**
      * 删除任务
      */
-    @PostMapping(value = "deletejob")
+    @PostMapping("deletejob")
     public void deletejob(String jobClassName, String jobGroupName) {
         jobService.deleteJob(jobClassName, jobGroupName);
     }
@@ -72,7 +72,7 @@ public class JobController {
     /**
      * 查询任务
      */
-    @GetMapping(value = "queryjob")
+    @GetMapping("queryjob")
     public Map<String, Object> queryjob(Integer pageNum, Integer pageSize) {
         PageInfo<JobAndTrigger> jobAndTrigger = iJobAndTriggerService.getJobAndTriggerDetails(pageNum, pageSize);
         Map<String, Object> map = new HashMap<>();

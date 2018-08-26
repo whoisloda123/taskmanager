@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-
 @Service
 public class JobAndTriggerImpl implements IJobAndTriggerService {
     private final JobAndTriggerMapper jobAndTriggerMapper;
