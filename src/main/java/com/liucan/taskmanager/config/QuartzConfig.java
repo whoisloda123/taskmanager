@@ -15,8 +15,11 @@ import java.util.Properties;
  * @author liucan
  * @date 2018/8/20
  * @brief quartz配置
- * 1.QuartzInitializerListener监听器可以监听到工程的启动，在工程停止再启动时让
- * 已有的定时任务继续执行
+ *        1.QuartzInitializerListener监听器可以监听到工程的启动，在工程停止再启动时让
+ *          已有的定时任务继续执行
+ *        2.当集群是放置在不同的机器上时，通常称之为水平集群。节点是跑在同一台机器是，称之为垂直集群
+ *        3.运行水平集群时，时钟应当要同步，以免出现离奇且不可预知的行为。假如时钟没能够同步，Scheduler 实例将对其他节点的状态产生混乱。
+ *        4.有几种简单的方法来保证时钟何持同步，而且也没有理由不这么做。最简单的同步计算机时钟的方式是使用某一个 Internet 时间服务器(Internet Time Server ITS)。
  */
 @Configuration
 public class QuartzConfig {

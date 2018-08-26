@@ -1,9 +1,15 @@
 package com.liucan.taskmanager.service;
 
-import com.liucan.taskmanager.common.BaseJob;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import com.liucan.taskmanager.common.basetask.BaseTask;
+import com.liucan.taskmanager.entity.JobAndTrigger;
+import com.liucan.taskmanager.mybatis.quartz.dao.JobAndTriggerMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.quartz.*;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * @author liucan
@@ -14,14 +20,24 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class JobService {
     private final Scheduler scheduler;
+    private final JobAndTriggerMapper jobAndTriggerMapper;
 
-    public JobService(Scheduler scheduler) {
+    public JobService(Scheduler scheduler,
+                      JobAndTriggerMapper jobAndTriggerMapper) {
         this.scheduler = scheduler;
+        this.jobAndTriggerMapper = jobAndTriggerMapper;
     }
 
-    public static BaseJob getClass(String className) throws Exception {
+    public PageInfo<JobAndTrigger> getJobAndTriggerDetails(int pageNum, int pageSize) {
+        PageHelper.startPage(pageNum, pageSize);
+        List<JobAndTrigger> list = jobAndTriggerMapper.getJobAndTriggerDetails();
+        PageInfo<JobAndTrigger> page = new PageInfo<>(list);
+        return page;
+    }
+
+    public static BaseTask getClass(String className) throws Exception {
         Class<?> class1 = Class.forName(className);
-        return (BaseJob) class1.newInstance();
+        return (BaseTask) class1.newInstance();
     }
 
     public void addJob(String className, String groupName, String cron, String description) {
@@ -30,7 +46,7 @@ public class JobService {
             scheduler.start();
 
             //构建job信息
-            BaseJob job = getClass(className);
+            BaseTask job = getClass(className);
             JobDetail jobDetail = JobBuilder.newJob(job.getClass())
                     .withDescription(description)
                     .withIdentity(className, groupName)

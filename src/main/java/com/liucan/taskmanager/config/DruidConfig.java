@@ -17,8 +17,6 @@ import java.util.List;
  * @author liucan
  * @date 2018/7/1
  * @brief mysql配置
- * 1.单个属性绑定：@Value("${mysql.driver}")
- * 2.整个类属性绑定：@ConfigurationProperties
  */
 @Data
 @Configuration

@@ -1,11 +1,8 @@
 package com.liucan.taskmanager.common;
 
 import com.alibaba.druid.pool.DruidDataSource;
-import com.liucan.taskmanager.config.DruidConfig;
+import lombok.Data;
 import org.quartz.utils.ConnectionProvider;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.Configuration;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -13,25 +10,21 @@ import java.sql.SQLException;
 /**
  * @author liucan
  * @date 2018/8/25
- * @brief
+ * @brief 自定义quartz连接池，使用druid连接池
  */
-@Configuration
+@Data
 public class DruidConnectionProvider implements ConnectionProvider {
-    @Autowired
-    @Qualifier("quartzDataSource")
+    //常量配置，与quartz.properties文件的key保持一致(去掉前缀)，同时提供set方法，Quartz框架自动注入值
+    private String driver;
+    private String url;
+    private String username;
+    private String password;
+    private int maxConnection;
+
     private DruidDataSource druidDataSource;
-    @Autowired
-    private DruidConfig druidConfig;
 
     @Override
     public Connection getConnection() throws SQLException {
-        DruidDataSource druidDataSource = new DruidDataSource();
-        ;
-        druidDataSource.setUrl("jdbc:mysql://192.168.32.128:3306/quartz?useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull");
-        druidDataSource.setUsername("root");
-        druidDataSource.setPassword("123456");
-        druidDataSource.setDriverClassName("com.mysql.jdbc.Driver");
-        druidDataSource.setMaxActive(10);
         return druidDataSource.getConnection();
     }
 
@@ -42,6 +35,11 @@ public class DruidConnectionProvider implements ConnectionProvider {
 
     @Override
     public void initialize() throws SQLException {
-
+        druidDataSource = new DruidDataSource();
+        druidDataSource.setDriverClassName(driver);
+        druidDataSource.setUrl(url);
+        druidDataSource.setUsername(username);
+        druidDataSource.setPassword(password);
+        druidDataSource.setMaxActive(maxConnection);
     }
 }

@@ -30,60 +30,15 @@
 
     <div style="margin-top:15px">
 
-        <el-table
-                ref="testTable"
-                :data="tableData"
-                style="width:100%"
-                border
-        >
-            <el-table-column
-                    prop="job_NAME"
-                    label="任务名称"
-                    sortable
-                    show-overflow-tooltip>
-            </el-table-column>
-
-            <el-table-column
-                    prop="job_GROUP"
-                    label="任务所在组"
-                    sortable>
-            </el-table-column>
-
-            <el-table-column
-                    prop="DESCRIPTION"
-                    label="任务描述"
-                    sortable>
-            </el-table-column>
-
-            <el-table-column
-                    prop="job_CLASS_NAME"
-                    label="任务类名"
-                    sortable>
-            </el-table-column>
-
-            <el-table-column
-                    prop="trigger_NAME"
-                    label="触发器名称"
-                    sortable>
-            </el-table-column>
-
-            <el-table-column
-                    prop="trigger_GROUP"
-                    label="触发器所在组"
-                    sortable>
-            </el-table-column>
-
-            <el-table-column
-                    prop="cron_EXPRESSION"
-                    label="表达式"
-                    sortable>
-            </el-table-column>
-
-            <el-table-column
-                    prop="time_ZONE_ID"
-                    label="时区"
-                    sortable>
-            </el-table-column>
+        <el-table ref="testTable" :data="tableData" style="width:100%" border>
+            <el-table-column prop="job_NAME" label="任务名称" sortable show-overflow-tooltip></el-table-column>
+            <el-table-column prop="job_GROUP" label="任务所在组" sortable></el-table-column>
+            <el-table-column prop="DESCRIPTION" label="任务描述" sortable></el-table-column>
+            <el-table-column prop="job_CLASS_NAME" label="任务类名" sortable></el-table-column>
+            <el-table-column prop="trigger_NAME" label="触发器名称" sortable></el-table-column>
+            <el-table-column prop="trigger_GROUP" label="触发器所在组" sortable></el-table-column>
+            <el-table-column prop="cron_EXPRESSION" label="表达式" sortable></el-table-column>
+            <el-table-column prop="time_ZONE_ID" label="时区" sortable></el-table-column>
 
             <el-table-column label="操作" width="300">
                 <template scope="scope">

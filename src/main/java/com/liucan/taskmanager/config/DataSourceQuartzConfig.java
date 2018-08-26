@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
@@ -18,25 +19,25 @@ import javax.sql.DataSource;
 /**
  * @author liucan
  * @date 2018/7/1
- * @brief mysql多数据源配置
+ * @brief mysql多数据源配置, 多数据源配置要求必须有一个是主, 用@Primary注解
  */
 @Configuration
 @EnableTransactionManagement
-@PropertySource(value = "classpath:properties/mysqlJavaLearn.properties")
-@MapperScan(basePackages = "com.liucan.taskmanager.mybatis.javalearn.dao", sqlSessionFactoryRef = "javaLearnSqlSessionFactory")
-public class JavaLearnDataSourceConfig {
-    //javalearn
-    @Value("${mysql.javaLearn.driver}")
+@PropertySource(value = "classpath:properties/quartz.properties")
+@MapperScan(basePackages = "com.liucan.taskmanager.mybatis.quartz.dao", sqlSessionFactoryRef = "quartzSqlSessionFactory")
+public class DataSourceQuartzConfig {
+    @Value("${org.quartz.dataSource.qzDS.driver}")
     private String driver;
-    @Value("${mysql.javaLearn.url}")
+    @Value("${org.quartz.dataSource.qzDS.url}")
     private String url;
-    @Value("${mysql.javaLearn.username}")
+    @Value("${org.quartz.dataSource.qzDS.username}")
     private String userName;
-    @Value("${mysql.javaLearn.password}")
+    @Value("${org.quartz.dataSource.qzDS.password}")
     private String password;
 
     @Bean(destroyMethod = "close")
-    public DruidDataSource javaLearnDataSource(DruidConfig druidConfig) {
+    @Primary
+    public DruidDataSource quartzDataSource(DruidConfig druidConfig) {
         DruidDataSource druidDataSource = druidConfig.dataSource();
         druidDataSource.setUrl(url);
         druidDataSource.setUsername(userName);
@@ -46,17 +47,19 @@ public class JavaLearnDataSourceConfig {
     }
 
     @Bean
-    public SqlSessionFactory javaLearnSqlSessionFactory(@Qualifier("javaLearnDataSource") DataSource dataSource) throws Exception {
+    @Primary
+    public SqlSessionFactory quartzSqlSessionFactory(@Qualifier("quartzDataSource") DataSource dataSource) throws Exception {
         SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
         sqlSessionFactoryBean.setDataSource(dataSource);
 
         PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
-        sqlSessionFactoryBean.setMapperLocations(resolver.getResources("classpath:mapper/javalearn/*.xml"));
+        sqlSessionFactoryBean.setMapperLocations(resolver.getResources("classpath:mapper/quartz/*.xml"));
         return sqlSessionFactoryBean.getObject();
     }
 
     @Bean
-    public DataSourceTransactionManager javaLearnTransactionManager(@Qualifier("javaLearnDataSource") DataSource dataSource) {
+    @Primary
+    public DataSourceTransactionManager quartzTransactionManager(@Qualifier("quartzDataSource") DataSource dataSource) {
         return new DataSourceTransactionManager(dataSource);
     }
 }

@@ -2,7 +2,6 @@ package com.liucan.taskmanager.controller;
 
 import com.github.pagehelper.PageInfo;
 import com.liucan.taskmanager.entity.JobAndTrigger;
-import com.liucan.taskmanager.service.IJobAndTriggerService;
 import com.liucan.taskmanager.service.JobService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,13 +19,10 @@ import java.util.Map;
 @RestController
 @RequestMapping("job")
 public class JobController {
-    private final IJobAndTriggerService iJobAndTriggerService;
     private final JobService jobService;
 
-    public JobController(JobService jobService,
-                         IJobAndTriggerService iJobAndTriggerService) {
+    public JobController(JobService jobService) {
         this.jobService = jobService;
-        this.iJobAndTriggerService = iJobAndTriggerService;
     }
 
     /**
@@ -41,7 +37,7 @@ public class JobController {
      * 暂停任务
      */
     @PostMapping("pausejob")
-    public void pausejob(String jobClassName, String jobGroupName) {
+    public void pauseJob(String jobClassName, String jobGroupName) {
         jobService.pauseJob(jobClassName, jobGroupName);
     }
 
@@ -49,7 +45,7 @@ public class JobController {
      * 恢复任务
      */
     @PostMapping("resumejob")
-    public void resumejob(String jobClassName, String jobGroupName) {
+    public void resumeJob(String jobClassName, String jobGroupName) {
         jobService.resumeJob(jobClassName, jobGroupName);
     }
 
@@ -65,7 +61,7 @@ public class JobController {
      * 删除任务
      */
     @PostMapping("deletejob")
-    public void deletejob(String jobClassName, String jobGroupName) {
+    public void deleteJob(String jobClassName, String jobGroupName) {
         jobService.deleteJob(jobClassName, jobGroupName);
     }
 
@@ -73,8 +69,8 @@ public class JobController {
      * 查询任务
      */
     @GetMapping("queryjob")
-    public Map<String, Object> queryjob(Integer pageNum, Integer pageSize) {
-        PageInfo<JobAndTrigger> jobAndTrigger = iJobAndTriggerService.getJobAndTriggerDetails(pageNum, pageSize);
+    public Map<String, Object> queryJob(Integer pageNum, Integer pageSize) {
+        PageInfo<JobAndTrigger> jobAndTrigger = jobService.getJobAndTriggerDetails(pageNum, pageSize);
         Map<String, Object> map = new HashMap<>();
         map.put("JobAndTrigger", jobAndTrigger);
         map.put("number", jobAndTrigger.getTotal());

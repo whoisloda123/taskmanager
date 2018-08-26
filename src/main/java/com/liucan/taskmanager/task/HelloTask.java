@@ -1,6 +1,6 @@
-package com.liucan.taskmanager.job;
+package com.liucan.taskmanager.task;
 
-import com.liucan.taskmanager.common.BaseJob;
+import com.liucan.taskmanager.common.basetask.BaseTask;
 import lombok.extern.slf4j.Slf4j;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
@@ -11,7 +11,7 @@ import org.quartz.JobExecutionException;
  * @brief
  */
 @Slf4j
-public class HelloJob implements BaseJob {
+public class HelloTask implements BaseTask {
     @Override
     public void execute(JobExecutionContext jobExecutionContext) throws JobExecutionException {
         log.info("HelloJob执行了");
