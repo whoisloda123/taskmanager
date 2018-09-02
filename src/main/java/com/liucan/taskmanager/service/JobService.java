@@ -14,7 +14,9 @@ import java.util.List;
 /**
  * @author liucan
  * @date 2018/8/21
- * @brief
+ * @brief quartz常用的定时器有
+ *        1.SimpleTrigger：用来触发只需执行一次或者在给定时间触发并且重复N次且每次执行延迟一定时间的任务。
+ *        2.CronTrigger：按照日历触发，例如“每个周五”，每个月10日中午或者10：15分。
  */
 @Service
 @Slf4j
@@ -35,7 +37,7 @@ public class JobService {
         return page;
     }
 
-    public static BaseTask getClass(String className) throws Exception {
+    private static BaseTask getClass(String className) throws Exception {
         Class<?> class1 = Class.forName(className);
         return (BaseTask) class1.newInstance();
     }
@@ -51,6 +53,9 @@ public class JobService {
                     .withDescription(description)
                     .withIdentity(className, groupName)
                     .build();
+
+            //可加入自己的信息
+            jobDetail.getJobDataMap().put("mykey", "myvalue");
 
             //表达式调度构建器(执行任务的时间)
             CronScheduleBuilder cronScheduleBuilder = CronScheduleBuilder.cronSchedule(cron);
