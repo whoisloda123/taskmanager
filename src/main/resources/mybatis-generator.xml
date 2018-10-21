@@ -6,7 +6,7 @@
 <!-- 配置生成器 -->
 <generatorConfiguration>
     <classPathEntry
-            location="C:\Users\Administrator\.m2\repository\mysql\mysql-connector-java\5.1.13\mysql-connector-java-5.1.13.jar"/>
+            location="/home/liucan/.m2/repository/mysql/mysql-connector-java/5.1.13/mysql-connector-java-5.1.13.jar"/>
 
     <context id="MyBatis" targetRuntime="MyBatis3">
         <property name="autoDelimitKeywords" value="false"/>
@@ -23,7 +23,7 @@
 
         <jdbcConnection
                 driverClass="com.mysql.jdbc.Driver"
-                connectionURL="jdbc:mysql://192.168.32.128:3306/javalearn?useUnicode=true"
+                connectionURL="jdbc:mysql://192.168.2.105:3306/java_learn?useUnicode=true"
                 userId="root"
                 password="123456">
         </jdbcConnection>
@@ -50,7 +50,7 @@
         </javaClientGenerator>
 
         <!--生成的表-->
-        <table tableName="user_info">
+        <table tableName="common_user">
         </table>
     </context>
 </generatorConfiguration>
